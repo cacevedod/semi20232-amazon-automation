@@ -1,8 +1,10 @@
 package com.amazon.stepdefinitions;
 
+import com.amazon.tasks.BuscarItem;
 import com.amazon.tasks.SeleccionarItem;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Entonces;
+import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Enter;
 import net.serenitybdd.screenplay.actions.EnterValue;
@@ -21,8 +23,7 @@ public class AgregarCarritoStepDefinitions {
     public void agregoUnItemAlCarrito(String item) {
         OnStage.theActorCalled("comprador").attemptsTo(
                 Open.url("https://www.amazon.com"),
-                Enter.theValue(item).into(INPUT_BARRA_BUSQUEDA).thenHit(Keys.ENTER),
-                SeleccionarItem.conEnvioColombia()
+                BuscarItem.conEnvioColombia(item)
         );
     }
 
@@ -32,5 +33,13 @@ public class AgregarCarritoStepDefinitions {
                 Click.on(BUT_CARRITO),
                 Ensure.that(LIST_ITEMS).textValues().hasSize(numeroitems)
         );
+    }
+
+    @Cuando("{actor} agrega al carrito los items")
+    public void agregarVariosItemsCarrito(Actor actor, io.cucumber.datatable.DataTable dataTable) {
+        actor.attemptsTo(Open.url("https://www.amazon.com"));
+        dataTable.asList().stream().forEach( item -> {
+                    actor.attemptsTo(BuscarItem.conEnvioColombia(item));
+        });
     }
 }
