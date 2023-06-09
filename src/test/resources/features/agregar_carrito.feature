@@ -6,7 +6,7 @@
 
   Escenario: agregar un control de PC al carrito de compras
     Cuando agrego un "control de pc" al carrito
-    Entonces debe verse 1 elemento en el carrito de compras
+    Entonces debe verse 1 item en el carrito de compras
 
 
 
